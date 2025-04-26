@@ -38,4 +38,8 @@ public class ClienteServiceImpl implements ClienteService {
         return clientepage;
     }
 
+    @Override
+    public Long cantidadClientes() {
+        return clienteRepository.count();
+    }
 }

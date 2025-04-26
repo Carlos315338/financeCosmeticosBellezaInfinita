@@ -8,4 +8,6 @@ public interface ClienteService {
 
     public Page<ClienteDTO> obtenerClientes(int page, int size);
 
+    public Long cantidadClientes();
+
 }

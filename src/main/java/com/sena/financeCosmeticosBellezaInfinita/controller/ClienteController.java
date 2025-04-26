@@ -22,10 +22,21 @@ public class ClienteController {
     @GetMapping("/clientes")
     public ResponseEntity<ApiResponse<Page<ClienteDTO>>> listarClientes(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size) {
         Page<ClienteDTO> clientes = clienteService.obtenerClientes(page, size);
-        return ResponseEntity.ok(ApiResponse.ok("Operacion Exitosa", clientes) );
+        return ResponseEntity.ok(ApiResponse.ok("Operacion Exitosa", clientes));
+    }
+
+    @GetMapping("/cantidadCliente")
+    public ResponseEntity<ApiResponse<Long>> cantidadClientes() {
+        try {
+            Long cantidadCliente = clienteService.cantidadClientes();
+            return ResponseEntity.ok(ApiResponse.ok("Operacion Exitosa", cantidadCliente));
+        } catch (Exception e) {
+            System.out.println("Error obtener la cantidad de  clientes " + e);
+            return ResponseEntity.ok(ApiResponse.error(""));
+
+        }
     }
 
 }
