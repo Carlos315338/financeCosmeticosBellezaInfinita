@@ -4,26 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sena.financeCosmeticosBellezaInfinita.dto.ApiResponse;
 import com.sena.financeCosmeticosBellezaInfinita.dto.ClienteDTO;
+import com.sena.financeCosmeticosBellezaInfinita.entity.PaginacionFiltroDTO;
 import com.sena.financeCosmeticosBellezaInfinita.service.ClienteService;
 
 @RestController
-@RequestMapping("api/cliente")
+@RequestMapping("cliente")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/clientes")
-    public ResponseEntity<ApiResponse<Page<ClienteDTO>>> listarClientes(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Page<ClienteDTO> clientes = clienteService.obtenerClientes(page, size);
+    @PostMapping("/clientes")
+    public ResponseEntity<ApiResponse<Page<ClienteDTO>>> listarClientes(@RequestBody PaginacionFiltroDTO filtro) {
+        Page<ClienteDTO> clientes = clienteService.obtenerClientes(filtro);
         return ResponseEntity.ok(ApiResponse.ok("Operacion Exitosa", clientes));
     }
 
@@ -39,4 +40,9 @@ public class ClienteController {
         }
     }
 
+    @PostMapping("updateCliente/{id}")
+    public ResponseEntity<ApiResponse<ClienteDTO>> listarProveedores(@PathVariable String id, @RequestBody ClienteDTO cliente) {
+        ClienteDTO productoUpdate = clienteService.actualizacionCliente(id, cliente);
+        return ResponseEntity.ok(ApiResponse.ok("Operacion Exitosa", productoUpdate));
+    }
 }
